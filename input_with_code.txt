@@ -1,0 +1,10 @@
+model = SARIMAX(train, order=(2, 1, 1), seasonal_loader=(0,0,0,0) )
+fitted = model.fit()
+print(fitted.summary())
+df_forecast = df.copy()
+
+df_forecast['temp_forecast'] = fitted.forecast(15, alpha=0.05)  # 95% conf
+df_forecast = df_forecast[~df_forecast['temp_forecast'].isnull()]
+df_forecast.head()
+
+fig, ax = plt.subplots(figsize = (20, 5))
